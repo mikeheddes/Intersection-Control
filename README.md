@@ -1,2 +1,4 @@
-# Intersection-Control
-The Intersection Control Algorithm is made to minimizes the waiting time for a traffic light.
+# Intersection Control
+Algorithm made to minimizes the waiting time for a traffic light by advising a speed to the vehicles.
+
+[See the site](https://docs.mikeheddes.nl).
