@@ -1,6 +1,5 @@
 # Intersection Control Algorithm
-Algorithm made to minimizes the waiting time for a traffic light by advising a speed to vehicles.
-
+Algorithm made to minimize the time you need to wait for the light to turn green by advising a speed to the vehicle.
  [**See the site**](https://docs.mikeheddes.nl)
 
 
