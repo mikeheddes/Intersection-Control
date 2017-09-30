@@ -11,6 +11,7 @@ Algorithm made to minimize the time you need to wait for the light to turn green
 * [TraCI Python module](http://sumo.dlr.de/wiki/TraCI)
 * [Numpy](http://www.numpy.org)
 * [Pandas](http://pandas.pydata.org)
+
 **Optional for data visualization**
 * [MathPlotLib](http://matplotlib.org)
 * [Seaborn](https://seaborn.pydata.org/index.html)
