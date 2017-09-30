@@ -23,5 +23,5 @@ Algorithm made to minimize the time you need to wait for the light to turn green
 3. Search for the `traci` and `sumolib` folders in `path/to/sumo/tools` on windows and `/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages` on macOS
 4. Copy the folders to your python site-packages folder
 5. Download this repository
-6. Open console move to the repository
+6. Open console move to the downloaded repository
 7. Run `$ python runner.py`
