@@ -13,6 +13,8 @@
         <step-length value="0.2"/>
     </time>
 
+    <gui-settings-file value="viewsettings.xml" />
+
     <processing>
         <time-to-teleport value="-1" />
     </processing>

@@ -1,14 +1,17 @@
 # System
 import sys
 import re
+import os
 # Third party
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib import style
+import matplotlib
 
-# style.use('')
+DIR = os.path.dirname(os.path.abspath(__file__))
+style.use(os.path.join(DIR, 'style.mplstyle'))
 
 skipPosition = 10
 data_file = 'data.csv'

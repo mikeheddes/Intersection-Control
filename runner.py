@@ -12,6 +12,8 @@ collect_data = False
 if len(sys.argv) > 1:
     if sys.argv[1] == '--data' or sys.argv[1] == '-d':
         collect_data = True
+    else:
+        raise Exception('Argument not available...')
 
 sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"]
 traci.start(sumoCmd)
