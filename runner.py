@@ -16,7 +16,7 @@ if len(sys.argv) > 1:
         raise Exception('Argument not available...')
 
 sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"]
-traci.start(sumoCmd)
+traci.start(sumoCmd, port=9000)
 step = 0
 steps = 1000
 
