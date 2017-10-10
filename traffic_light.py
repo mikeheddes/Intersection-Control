@@ -21,6 +21,9 @@ class TrafficLight(object):
         self.df = pd.DataFrame()
         self.vehicleCount = 0
         self.collect_data = collect_data
+        self.phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
+            0]._phases
+        self.phase = 0
 
     def getAdviseSpeed(self, vehID):
         distance = self.getDistance(vehID)
@@ -125,6 +128,11 @@ class TrafficLight(object):
         time = traci.simulation.getCurrentTime()
         phaseTime = tratl.getPhaseDuration(self.ID)
         self.timeInPhase = phaseTime - (nextSwitch - time)
+        # if time % 10000 == 0:
+        #     self.phase = tratl.getPhase(self.ID) + 1
+        #     if self.phase >= len(self.phases):
+        #         self.phase = 0
+        #     tratl.setPhase(self.ID, self.phase)
 
     def getTimeTillRed(self, vehID):
         vehLane = trave.getLaneID(vehID)
