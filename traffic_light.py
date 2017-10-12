@@ -24,8 +24,28 @@ class TrafficLight(object):
         self.phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
             0]._phases
         self.phase = 0
+<<<<<<< Updated upstream
         self.ICData = {lane:[] for lane in self.controlledLanes}
         print (self.ICData)
+=======
+        self.Tl = {l: 0 for l in self.controlledLanes}
+        self.light_change = traci.simulation.getCurrentTime()
+
+    def light_switch(self):
+        vehIDs = trave.getIDList()
+        for vehID in vehIDs:
+            lane = trave.getLaneID(vehID)
+            if lane in self.controlledLanes:
+                self.Tl[lane] += np.less_equal(trave.getSpeed(vehID), 2) * \
+                    traci.simulation.getDeltaT()
+
+        if self.light_change + 10000 < traci.simulation.getCurrentTime():
+            maxTl = np.amax(list(self.Tl.values()))
+            indexMaxTl = list(self.Tl.values()).index(maxTl)
+            tratl.setPhase(self.ID, indexMaxTl)
+            self.Tl[list(self.Tl.keys())[indexMaxTl]] = 0
+            self.light_change = traci.simulation.getCurrentTime()
+>>>>>>> Stashed changes
 
     def getAdviseSpeed(self, vehID):
         distance = self.getDistance(vehID)

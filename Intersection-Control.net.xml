@@ -91,13 +91,15 @@
 
     <tlLogic id="2" type="static" programID="0" offset="0">
         <phase duration="35" state="GGgrrrGGgrrr" />
-        <phase duration="2" state="yygrrryygrrr" />
+        <!-- <phase duration="2" state="yygrrryygrrr" />
         <phase duration="6" state="rrGrrrrrGrrr" />
-        <phase duration="2" state="rryrrrrryrrr" />
+        <phase duration="2" state="rryrrrrryrrr" /> -->
         <phase duration="35" state="rrrGGgrrrGGg" />
-        <phase duration="2" state="rrryygrrryyg" />
+        <!-- <phase duration="2" state="rrryygrrryyg" />
         <phase duration="6" state="rrrrrGrrrrrG" />
-        <phase duration="2" state="rrrrryrrrrry" />
+        <phase duration="2" state="rrrrryrrrrry" /> -->
+        <phase duration="35" state="GGgrrrGGgrrr" />
+        <phase duration="35" state="rrrGGgrrrGGg" />
     </tlLogic>
 
     <junction id="1" type="priority" x="0.00" y="100.00" incLanes="A1_0" intLanes=":1_0_0" shape="0.00,99.95 0.00,103.25 0.00,100.05">
