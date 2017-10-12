@@ -24,10 +24,7 @@ class TrafficLight(object):
         self.phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
             0]._phases
         self.phase = 0
-<<<<<<< Updated upstream
-        self.ICData = {lane:[] for lane in self.controlledLanes}
-        print (self.ICData)
-=======
+        self.ICData = {lane: [] for lane in self.controlledLanes}
         self.Tl = {l: 0 for l in self.controlledLanes}
         self.light_change = traci.simulation.getCurrentTime()
 
@@ -45,7 +42,6 @@ class TrafficLight(object):
             tratl.setPhase(self.ID, indexMaxTl)
             self.Tl[list(self.Tl.keys())[indexMaxTl]] = 0
             self.light_change = traci.simulation.getCurrentTime()
->>>>>>> Stashed changes
 
     def getAdviseSpeed(self, vehID):
         distance = self.getDistance(vehID)
@@ -93,7 +89,6 @@ class TrafficLight(object):
     #     try:
     #         laneIndex = self.controlledLanes.index(vehLane)
     #     if vehLane in self.controlledLanes:
-
 
     def getTimeTillGreen(self, vehID):
         vehLane = trave.getLaneID(vehID)
@@ -150,7 +145,7 @@ class TrafficLight(object):
 
     def getNotivicationDistance(self, vehID):
         speed = trave.getSpeed(vehID)
-        return (speed / self.comfortAcceleration * speed)+12
+        return (speed / self.comfortAcceleration * speed) + 12
         """ +12 = minimal distance to ignore traffic lights """
 
     def update(self):
@@ -163,7 +158,8 @@ class TrafficLight(object):
             LaneID = trave.getLaneID(ID)
             if LaneID in self.controlledLanes:
                 Position = trave.getPosition(ID)
-                self.ICData[LaneID]+=[{"id":ID,"x":Position[0],"y":Position[1]}]
+                self.ICData[LaneID] += [{"id": ID,
+                                         "x": Position[0], "y":Position[1]}]
         print(self.ICData)
 
     def updateTime(self):
