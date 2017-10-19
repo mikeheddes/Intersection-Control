@@ -9,9 +9,11 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
+# Own
+from traffic_time import *
 
 
-class TrafficLight(object):
+class TrafficLight(TrafficTime):
 
     def __init__(self, collect_data):
         self.ID = tratl.getIDList()[0]
@@ -24,65 +26,75 @@ class TrafficLight(object):
         self.phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
             0]._phases
         self.phase = 0
+        self.greenCheck = re.compile("[gG]")
+        self.redCheck = re.compile("[r]")
         self.ICData = {lane: [] for lane in self.controlledLanes}
+        self.timeTillGreen = {lane: None for lane in self.controlledLanes}
+        self.timeTillNextGreen = {lane: None for lane in self.controlledLanes}
+        self.timeTillRed = {lane: None for lane in self.controlledLanes}
         self.Tl = {l: 0 for l in self.controlledLanes}
         self.light_change = traci.simulation.getCurrentTime()
 
-    def light_switch(self):
-        vehIDs = trave.getIDList()
-        for vehID in vehIDs:
-            lane = trave.getLaneID(vehID)
-            if lane in self.controlledLanes:
-                self.Tl[lane] += np.less_equal(trave.getSpeed(vehID), 2) * \
-                    traci.simulation.getDeltaT()
+    # def light_switch(self):
+    #     vehIDs = trave.getIDList()
+    #     for vehID in vehIDs:
+    #         lane = trave.getLaneID(vehID)
+    #         if lane in self.controlledLanes:
+    #             self.Tl[lane] += np.less_equal(trave.getSpeed(vehID), 2) * \
+    #                 traci.simulation.getDeltaT()
+    #
+    #     if self.light_change + 10000 < traci.simulation.getCurrentTime():
+    #         maxTl = np.amax(list(self.Tl.values()))
+    #         indexMaxTl = list(self.Tl.values()).index(maxTl)
+    #         tratl.setPhase(self.ID, indexMaxTl)
+    #         self.Tl[list(self.Tl.keys())[indexMaxTl]] = 0
+    #         self.light_change = traci.simulation.getCurrentTime()
 
-        if self.light_change + 10000 < traci.simulation.getCurrentTime():
-            maxTl = np.amax(list(self.Tl.values()))
-            indexMaxTl = list(self.Tl.values()).index(maxTl)
-            tratl.setPhase(self.ID, indexMaxTl)
-            self.Tl[list(self.Tl.keys())[indexMaxTl]] = 0
-            self.light_change = traci.simulation.getCurrentTime()
+    def updateAdviceSpeed(self):
+        for laneID, lane in self.ICData.items():
+            for vehNumber in range(len(lane)):
+                veh = lane[vehNumber]
+                distance = self.getDistance(laneID, veh["x"], veh["y"])
+                notifyDistance = self.getNotifydDistance(veh["id"], vehNumber)
+                speed, time = self.getAdviseSpeed(
+                    veh["id"], distance, notifyDistance, laneID)
+                traci.vehicle.slowDown(veh["id"], speed, int(time))
 
-    def getAdviseSpeed(self, vehID):
-        distance = self.getDistance(vehID)
-        notivicationDistance = self.getNotivicationDistance(vehID)
-        maxSpeed = traci.lane.getMaxSpeed(trave.getLaneID(vehID))
+    def getAdviseSpeed(self, vehID, distance, notifyDistance, laneID):
+        maxSpeed = traci.lane.getMaxSpeed(laneID)
         speed = trave.getSpeed(vehID)
 
         def calculateBeforeRed():
-            if self.makeItBeforeRed(timeTillRed, maxSpeed, distance, vehID):
+            if self.makeItBeforeRed(self.timeTillRed[laneID], maxSpeed, distance, vehID):
                 return maxSpeed
             else:
-                return distance / self.getTimeTillNextGreen(vehID)
+                return self.calcSpeed(distance - notifyDistance, self.timeTillNextGreen[laneID])
 
-        if distance is not None and distance > notivicationDistance:
-            timeTillGreen = self.getTimeTillGreen(vehID) / 1000
-            timeTillRed = self.getTimeTillRed(vehID) / 1000
-
-            if timeTillGreen > 0:
-                speed = (distance - notivicationDistance) / timeTillGreen
+        if distance > notifyDistance:
+            if self.timeTillGreen[laneID] > 0:
+                speed = self.calcSpeed(distance - notifyDistance,
+                                       self.timeTillGreen[laneID])
                 if speed > maxSpeed:
                     speed = calculateBeforeRed()
             else:
                 speed = calculateBeforeRed()
         else:
             speed = maxSpeed
-        accelTime = np.absolute(int((speed - trave.getSpeed(vehID)) /
-                                    self.comfortAcceleration * 1000))
+        accelTime = np.absolute(
+            (speed - trave.getSpeed(vehID)) / self.comfortAcceleration * 1000)
         if self.collect_data:
             self.addToDataFrame(vehID)
         return speed, accelTime
 
-    def getDistance(self, vehID):
-        vehPosition = np.asarray(trave.getPosition(vehID))
-        vehLane = trave.getLaneID(vehID)
-        if vehLane in self.controlledLanes:
-            tlPosition = np.asarray(traci.lane.getShape(vehLane)[1])
-            delta = np.subtract(tlPosition, vehPosition)
-            d = (np.sqrt(np.add(np.power(delta[0], 2), np.power(delta[1], 2))))
-        else:
-            d = None
-        return d
+    @staticmethod
+    def calcSpeed(s, t):
+        return s / t
+
+    @staticmethod
+    def getDistance(laneID, x, y):
+        tlPosition = np.asarray(traci.lane.getShape(laneID)[1])
+        delta = np.subtract(tlPosition, [x, y])
+        return np.sqrt(np.add(np.power(delta[0], 2), np.power(delta[1], 2)))
 
     # def carDistance
     #     vehLane = trave.getLaneID(vehID)
@@ -90,113 +102,49 @@ class TrafficLight(object):
     #         laneIndex = self.controlledLanes.index(vehLane)
     #     if vehLane in self.controlledLanes:
 
-    def getTimeTillGreen(self, vehID):
-        vehLane = trave.getLaneID(vehID)
-        try:
-            laneIndex = self.controlledLanes.index(vehLane)
-        except ValueError as e:
-            laneIndex = None
-        if laneIndex is not None:
-            currentPhase = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
-                0]._currentPhaseIndex
-            greenCheck = re.compile("[gG]")
-            phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
-                0]._phases
-            phasesCicle = list(range(currentPhase, len(phases)))
-            if currentPhase is not 0:
-                phasesCicle.extend(list(range(0, currentPhase)))
-            duration = -(self.timeInPhase)
-            for i in phasesCicle:
-                if greenCheck.match(phases[i]._phaseDef[laneIndex]):  # if green
-                    break
-                else:
-                    duration += phases[i]._duration
-        else:
-            duration = None
-        return duration
-
-    def getTimeTillNextGreen(self, vehID):
-        vehLane = trave.getLaneID(vehID)
-        greens = 0
-        try:
-            laneIndex = self.controlledLanes.index(vehLane)
-        except ValueError as e:
-            laneIndex = None
-        if laneIndex is not None:
-            currentPhase = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
-                0]._currentPhaseIndex
-            greenCheck = re.compile("[gG]")
-            phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
-                0]._phases
-            phasesCicle = list(range(currentPhase, len(phases)))
-            if currentPhase is not 0:
-                phasesCicle.extend(list(range(0, currentPhase)))
-            duration = -(self.timeInPhase)
-            for i in phasesCicle:
-                if greenCheck.match(phases[i]._phaseDef[laneIndex]):
-                    greens += 1
-                    if greens is 2:
-                        break
-                else:
-                    duration += phases[i]._duration
-        else:
-            duration = None
-        return duration
-
-    def getNotivicationDistance(self, vehID):
+    def getNotifydDistance(self, vehID, vehNumber):
         speed = trave.getSpeed(vehID)
-        return (speed / self.comfortAcceleration * speed) + 12
-        """ +12 = minimal distance to ignore traffic lights """
+        return (speed / self.comfortAcceleration * speed) + 13 + 10 * vehNumber
+        """ +13 = minimal distance to ignore traffic lights
+        add vehicles in front * length"""
 
     def update(self):
         self.updateTime()
+        self.setTimeTillGreen()
+        self.setTimeTillRed()
+        self.setTimeTillNextGreen()
         self.updateVehicles()
+        self.updateAdviceSpeed()
 
     def updateVehicles(self):
+        '''Retreve and update the state of all vehicles in ICData'''
+        self.removePastVehicles()
+        for laneID, lane in self.ICData.items():
+            for vehicle in lane:
+                pos = trave.getPosition(vehicle["id"])
+                vehicle["x"] = pos[0]
+                vehicle["y"] = pos[1]
+                # col = np.random.rand(3) * 255
+                # trave.setColor(vehicle["id"], (col[0], col[1], col[2], 0))
+        self.addNewVehicles()
+
+    def addNewVehicles(self):
         DepartIDs = traci.simulation.getDepartedIDList()
         for ID in DepartIDs:
             LaneID = trave.getLaneID(ID)
             if LaneID in self.controlledLanes:
-                Position = trave.getPosition(ID)
-                self.ICData[LaneID] += [{"id": ID,
-                                         "x": Position[0], "y":Position[1]}]
-        print(self.ICData)
+                pos = trave.getPosition(ID)
+                self.ICData[LaneID] += [{"id": ID, "x": pos[0], "y":pos[1]}]
 
-    def updateTime(self):
-        nextSwitch = tratl.getNextSwitch(self.ID)
-        time = traci.simulation.getCurrentTime()
-        phaseTime = tratl.getPhaseDuration(self.ID)
-        self.timeInPhase = phaseTime - (nextSwitch - time)
-        # if time % 10000 == 0:
-        #     self.phase = tratl.getPhase(self.ID) + 1
-        #     if self.phase >= len(self.phases):
-        #         self.phase = 0
-        #     tratl.setPhase(self.ID, self.phase)
-
-    def getTimeTillRed(self, vehID):
-        vehLane = trave.getLaneID(vehID)
-        try:
-            laneIndex = self.controlledLanes.index(vehLane)
-        except ValueError as e:
-            laneIndex = None
-        if laneIndex is not None:
-            currentPhase = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
-                0]._currentPhaseIndex
-            redCheck = re.compile("[r]")
-            phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
-                0]._phases
-            phasesCicle = list(range(currentPhase, len(phases)))
-            if currentPhase is not 0:
-                phasesCicle.extend(range(0, currentPhase))
-            duration = -(self.timeInPhase)
-            for i in phasesCicle:
-                if redCheck.match(phases[i]._phaseDef[laneIndex]):  # if green
-                    break
+    def removePastVehicles(self):
+        '''Removes the first car if the laneID is not in controlledLanes
+        then check next car till laneID is in controlledLanes'''
+        for laneID, lane in self.ICData.items():
+            while len(lane) > 0:
+                if trave.getLaneID(lane[0]["id"]) not in self.controlledLanes:
+                    lane.pop(0)
                 else:
-                    duration += phases[i]._duration
-        else:
-            duration = None
-        return duration
+                    break
 
     def addToDataFrame(self, vehID):
         self.df = self.df.append({"message_time": traci.simulation.getCurrentTime(),
@@ -230,9 +178,3 @@ class TrafficLight(object):
 
     def makeItBeforeRed(self, timeTillRed, maxSpeed, distance, vehID):
         return timeTillRed * maxSpeed > distance + trave.getLength(vehID)
-
-    def getID(self):
-        return self.ID
-
-    def getControlledLanes(self):
-        return self.controlledLanes

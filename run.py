@@ -21,7 +21,6 @@ step = 0
 steps = 1000
 
 
-
 tl = traffic_light.TrafficLight(collect_data)
 while step < steps:
     traci.simulationStep()
