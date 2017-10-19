@@ -33,6 +33,7 @@ for veh in vehicle_number:
     sizes.append(len(data.index))
 
 v = [np.zeros(y) for y in sizes]
+A = [np.zeros(y) for y in sizes]
 t = [np.zeros(y) for y in sizes]
 x = [np.zeros(y) for y in sizes]
 y = [np.zeros(y) for y in sizes]
@@ -40,6 +41,7 @@ y = [np.zeros(y) for y in sizes]
 for i in range(len(vehicle_number)):
     data = df.query('vehicle_number == {}'.format(vehicle_number[i]))
     v[i] = data.as_matrix(columns=['v']).reshape(-1)
+    A[i] = data.as_matrix(columns=['vAD']).reshape(-1)
     t[i] = data.as_matrix(columns=['message_time']).reshape(-1)
     x[i] = data.as_matrix(columns=['x']).reshape(-1).reshape(-1)
     y[i] = data.as_matrix(columns=['y']).reshape(-1).reshape(-1)
@@ -49,8 +51,9 @@ fig.suptitle('Figure 1', fontsize=14, fontweight='bold')
 fig.subplots_adjust(hspace=0.45)
 
 ax1 = fig.add_subplot(211)
-for vi, ti, veh in zip(v, t, vehicle_number):
+for vi, ti, veh, AD in zip(v, t, vehicle_number, A):
     ax1.plot(ti, vi, label="vehicle {}".format(veh))
+    ax1.plot(ti, AD, label="vehicle {} AD".format(veh))
 ax1.legend()
 ax1.set_title('Speed of the vehicles')
 ax1.set_xlabel('time (steps)')
