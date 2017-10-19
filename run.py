@@ -16,7 +16,7 @@ if len(sys.argv) > 1:
         raise Exception('Argument not available...')
 
 sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"]
-traci.start(sumoCmd, port=9000)
+traci.start(sumoCmd)
 step = 0
 steps = 1000
 
@@ -25,9 +25,6 @@ tl = traffic_light.TrafficLight(collect_data)
 while step < steps:
     traci.simulationStep()
     tl.update()
-    # for vID in traci.vehicle.getIDList():
-    #     speed, time = tl.getAdviseSpeed(vID)
-    #     traci.vehicle.slowDown(vID, speed, time)
     step += 1
 
 if collect_data:
