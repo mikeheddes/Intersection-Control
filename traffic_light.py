@@ -83,7 +83,7 @@ class TrafficLight(TrafficTime):
         accelTime = np.absolute(
             (speed - trave.getSpeed(vehID)) / self.comfortAcceleration * 1000)
         if self.collect_data:
-            self.addToDataFrame(vehID)
+            self.addToDataFrame(vehID, speed)
         return speed, accelTime
 
     @staticmethod
@@ -146,14 +146,15 @@ class TrafficLight(TrafficTime):
                 else:
                     break
 
-    def addToDataFrame(self, vehID):
+    def addToDataFrame(self, vehID, adviceSpeed):
         self.df = self.df.append({"message_time": traci.simulation.getCurrentTime(),
                                   "vehicle_number": self.getVehicleNumber(vehID),
                                   "vehID": vehID,
                                   "x": trave.getPosition(vehID)[0],
                                   "y": trave.getPosition(vehID)[1],
                                   "v": trave.getSpeed(vehID),
-                                  "s": trave.getDistance(vehID)}, ignore_index=True)
+                                  "s": trave.getDistance(vehID),
+                                  "vAD": adviceSpeed}, ignore_index=True)
 
     def getVehicleNumber(self, vehID):
         if len(self.df.index) > 0:

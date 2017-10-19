@@ -18,9 +18,9 @@ data_file = 'data.csv'
 vehicle_number = 1
 for arg in sys.argv:
     print(arg)
-    if re.match("^-d=|^--data=", arg):
+    if re.match("^-d=|^--data=", arg):  # Use -d="data.csv"
         data_file = re.split("=", arg)[-1]
-    elif re.match("^-v=|^--vehicle=", arg):
+    elif re.match("^-v=|^--vehicle=", arg):  # Use -v="1,2,3"
         vehicle_number = re.split("=", arg)[-1]
         vehicle_number = re.split(",\s*", vehicle_number)
 
