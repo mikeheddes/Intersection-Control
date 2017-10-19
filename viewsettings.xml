@@ -1,5 +1,9 @@
 <viewsettings>
+<<<<<<< HEAD
     <delay value="50" />
+=======
+    <delay value="50"/>
+>>>>>>> ffc0659210d3dd2dd628f534c4e5d2d7304a6e34
     <scheme name="custom_1">
         <opengl antialiase="0" dither="0" />
         <background backgroundColor="249,249,249" showGrid="0" gridXSize="100.00" gridYSize="100.00" />
