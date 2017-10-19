@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes>
-    <vType id="CAR" maxSpeed="50" accel="2.6" decel="2.5" sigma="0.2" speedDev="0.2" vClass="passenger" color="#007AFF" />
+    <vType id="CAR" maxSpeed="50" accel="2.6" decel="2.5" sigma="0.2" speedDev="0.2" vClass="passenger" color="#007AFF" minGap="0" />
 
     <!-- <flow id="pkw1" type="CAR" from="C2" to="B1" departPos="base" departLane="0" probability="0.1" />
     <flow id="pkw2" type="CAR" from="A2" to="B1" departPos="base" departLane="0" probability="0.1" /> -->

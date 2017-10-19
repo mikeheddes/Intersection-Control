@@ -55,7 +55,7 @@ class TrafficLight(TrafficTime):
             for vehNumber in range(len(lane)):
                 veh = lane[vehNumber]
                 distance = self.getDistance(laneID, veh["x"], veh["y"])
-                notifyDistance = self.getNotifydDistance(veh["id"], vehNumber)
+                notifyDistance = self.getNotifydDistance(veh["id"], vehNumber, lane)
                 speed, time = self.getAdviseSpeed(
                     veh["id"], distance, notifyDistance, laneID)
                 traci.vehicle.slowDown(veh["id"], speed, int(time))
@@ -86,6 +86,7 @@ class TrafficLight(TrafficTime):
             self.addToDataFrame(vehID, speed)
         return speed, accelTime
 
+
     @staticmethod
     def calcSpeed(s, t):
         return s / t
@@ -102,9 +103,12 @@ class TrafficLight(TrafficTime):
     #         laneIndex = self.controlledLanes.index(vehLane)
     #     if vehLane in self.controlledLanes:
 
-    def getNotifydDistance(self, vehID, vehNumber):
+    def getNotifydDistance(self, vehID, vehNumber, lane):
         speed = trave.getSpeed(vehID)
-        return (speed / self.comfortAcceleration * speed) + 13 + 10 * vehNumber
+        Totalvehlength = 0
+        for i in range(vehNumber):
+            Totalvehlength += trave.getLength(lane[i]["id"])
+        return (speed / self.comfortAcceleration * speed) + 13 + 4.5 * vehNumber + Totalvehlength
         """ +13 = minimal distance to ignore traffic lights
         add vehicles in front * length"""
 

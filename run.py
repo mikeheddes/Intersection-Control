@@ -15,10 +15,10 @@ if len(sys.argv) > 1:
     else:
         raise Exception('Argument not available...')
 
-sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"]
+sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"] #sumo-gui for simulation
 traci.start(sumoCmd)
 step = 0
-steps = 1000
+steps = 200
 
 
 tl = traffic_light.TrafficLight(collect_data)
