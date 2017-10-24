@@ -18,7 +18,7 @@ if len(sys.argv) > 1:
 sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"] #sumo-gui for simulation
 traci.start(sumoCmd)
 step = 0
-steps = 200
+steps = 2000
 
 
 tl = traffic_light.TrafficLight(collect_data)

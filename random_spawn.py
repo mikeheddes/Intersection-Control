@@ -13,19 +13,20 @@ flow_id = 'flow_'
 flow_type = 'CAR'
 spawn_prob = 0.01
 xml_routes_string = '<?xml version="1.0" encoding="UTF-8"?>\n<routes>\n</routes>'
+FILENAME = 'barcelonaX'
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 FOLDER = os.path.basename(DIR)
 FILE = os.path.splitext(sys.argv[0])[0]
 
-node_data = ET.parse(os.path.join(DIR, FOLDER + node_extention)).getroot()
+node_data = ET.parse(os.path.join(DIR, FILENAME + node_extention)).getroot()
 for node in node_data:
     if node.tag == 'node' and node.attrib.get('type') == 'dead_end':
         dead_end_nodes.append(node.attrib.get('id'))
 
 print(dead_end_nodes)
 
-edge_data = ET.parse(os.path.join(DIR, FOLDER + edge_extention)).getroot()
+edge_data = ET.parse(os.path.join(DIR, FILENAME + edge_extention)).getroot()
 for edge in edge_data:
     if edge.tag == 'edge':
         if edge.attrib.get('from') in dead_end_nodes:

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <edges version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
     <edge id="A1" from="10" to="1" priority="1" numLanes="1" speed="8.33" />
-    <edge id="A2" from="1" to="10" priority="1" numLanes="1" speed="8.33" />
+    <edge id="A2" from="1" to="10" priority="1" numLanes="2" speed="8.33" />
     <edge id="B1" from="10" to="2" priority="1" numLanes="1" speed="8.33" />
-    <edge id="B2" from="2" to="10" priority="1" numLanes="1" speed="8.33" />
+    <edge id="B2" from="2" to="10" priority="1" numLanes="2" speed="8.33" />
     <edge id="C1" from="10" to="3" priority="1" numLanes="1" speed="8.33" />
-    <edge id="C2" from="3" to="10" priority="1" numLanes="1" speed="8.33" />
+    <edge id="C2" from="3" to="10" priority="1" numLanes="2" speed="8.33" />
     <edge id="D1" from="10" to="4" priority="1" numLanes="1" speed="8.33" />
-    <edge id="D2" from="4" to="10" priority="1" numLanes="1" speed="8.33" />
+    <edge id="D2" from="4" to="10" priority="1" numLanes="2" speed="8.33" />
 </edges>
+<!--  -->

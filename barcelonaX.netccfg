@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+    <node-files value="barcelonaX.nod.xml" />
+    <edge-files value="barcelonaX.edg.xml" />
+    <connection-files value="barcelonaX.con.xml" />
+    <type-files value="barcelonaX.typ.xml"/>
+    </input>
+
+    <output>
+        <output-file value="barcelonaX.net.xml"/>
+    </output>
+
+    <processing>
+        <speed-in-kmh value="false" />
+    </processing>
+
+    <report>
+        <xml-validation value="never" />
+    </report>
+
+</configuration>
