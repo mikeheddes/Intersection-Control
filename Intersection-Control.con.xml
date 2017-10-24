@@ -2,18 +2,18 @@
 <connections version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/connections_file.xsd">
     <!-- from A2 -->
     <connection from="A2" to="B1" fromLane="0" toLane="0" />
-    <connection from="A2" to="C1" fromLane="0" toLane="0" />
+    <connection from="A2" to="C1" fromLane="1" toLane="0" />
     <connection from="A2" to="D1" fromLane="0" toLane="0" />
     <!-- from B2 -->
     <connection from="B2" to="A1" fromLane="0" toLane="0" />
     <connection from="B2" to="C1" fromLane="0" toLane="0" />
-    <connection from="B2" to="D1" fromLane="0" toLane="0" />
+    <connection from="B2" to="D1" fromLane="1" toLane="0" />
     <!-- from C2 -->
     <connection from="C2" to="A1" fromLane="0" toLane="0" />
-    <connection from="C2" to="B1" fromLane="0" toLane="0" />
+    <connection from="C2" to="B1" fromLane="1" toLane="0" />
     <connection from="C2" to="D1" fromLane="0" toLane="0" />
     <!-- from D2 -->
-    <connection from="D2" to="A1" fromLane="0" toLane="0" />
+    <connection from="D2" to="A1" fromLane="1" toLane="0" />
     <connection from="D2" to="B1" fromLane="0" toLane="0" />
     <connection from="D2" to="C1" fromLane="0" toLane="0" />
 </connections>

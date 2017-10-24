@@ -46,28 +46,36 @@ for i in range(len(vehicle_number)):
     x[i] = data.as_matrix(columns=['x']).reshape(-1).reshape(-1)
     y[i] = data.as_matrix(columns=['y']).reshape(-1).reshape(-1)
 
-fig = plt.figure(1)
-fig.suptitle('Figure 1', fontsize=14, fontweight='bold')
-fig.subplots_adjust(hspace=0.45)
-
-ax1 = fig.add_subplot(211)
+# fig = plt.figure(1)
+# fig.suptitle('Figure 1', fontsize=14, fontweight='bold')
+# fig.subplots_adjust(hspace=0.45)
+fig,ax = plt.subplots()
 for vi, ti, veh, AD in zip(v, t, vehicle_number, A):
-    ax1.plot(ti, vi, label="vehicle {}".format(veh))
-    ax1.plot(ti, AD, label="vehicle {} AD".format(veh))
-ax1.legend()
-ax1.set_title('Speed of the vehicles')
-ax1.set_xlabel('time (steps)')
-ax1.set_ylabel('speed (m/s)')
+    ax.plot(ti, vi, label="vehicle {}".format(veh))
+    ax.plot(ti, AD, label="vehicle {} AD".format(veh))
+ax.legend()
+ax.set_title('Speed of the vehicles')
+ax.set_xlabel('time (steps)')
+ax.set_ylabel('speed (m/s)')
 
-ax2 = fig.add_subplot(212)
-ax2.axis('equal')
-ax2.axis([0, 200, 0, 200])
-for xi, yi, veh in zip(x, y, vehicle_number):
-    ax2.scatter(xi[0::skipPosition], yi[0::skipPosition],
-                s=2, label="vehicle {}".format(veh))
-ax2.legend()
-ax2.set_title('Path of the vehicles')
-ax2.set_xlabel('x position (m)')
-ax2.set_ylabel('y position (m)')
+# ax1 = fig.add_subplot(211)
+# for vi, ti, veh, AD in zip(v, t, vehicle_number, A):
+#     ax1.plot(ti, vi, label="vehicle {}".format(veh))
+#     ax1.plot(ti, AD, label="vehicle {} AD".format(veh))
+# ax1.legend()
+# ax1.set_title('Speed of the vehicles')
+# ax1.set_xlabel('time (steps)')
+# ax1.set_ylabel('speed (m/s)')
+
+# ax2 = fig.add_subplot(212)
+# ax2.axis('equal')
+# ax2.axis([0, 200, 0, 200])
+# for xi, yi, veh in zip(x, y, vehicle_number):
+#     ax2.scatter(xi[0::skipPosition], yi[0::skipPosition],
+#                 s=2, label="vehicle {}".format(veh))
+# ax2.legend()
+# ax2.set_title('Path of the vehicles')
+# ax2.set_xlabel('x position (m)')
+# ax2.set_ylabel('y position (m)')
 
 plt.show()

@@ -18,6 +18,7 @@ class TrafficLight(TrafficTime):
     def __init__(self, collect_data):
         self.ID = tratl.getIDList()[0]
         self.controlledLanes = tratl.getControlledLanes(self.ID)
+        print(traci.lane.getShape(self.controlledLanes[0]))
         self.timeInPhase = 0
         self.comfortAcceleration = 4
         self.df = pd.DataFrame()
@@ -35,27 +36,27 @@ class TrafficLight(TrafficTime):
         self.Tl = {l: 0 for l in self.controlledLanes}
         self.light_change = traci.simulation.getCurrentTime()
 
-    # def light_switch(self):
-    #     vehIDs = trave.getIDList()
-    #     for vehID in vehIDs:
-    #         lane = trave.getLaneID(vehID)
-    #         if lane in self.controlledLanes:
-    #             self.Tl[lane] += np.less_equal(trave.getSpeed(vehID), 2) * \
-    #                 traci.simulation.getDeltaT()
-    #
-    #     if self.light_change + 10000 < traci.simulation.getCurrentTime():
-    #         maxTl = np.amax(list(self.Tl.values()))
-    #         indexMaxTl = list(self.Tl.values()).index(maxTl)
-    #         tratl.setPhase(self.ID, indexMaxTl)
-    #         self.Tl[list(self.Tl.keys())[indexMaxTl]] = 0
-    #         self.light_change = traci.simulation.getCurrentTime()
+    def light_switch(self):
+        # vehIDs = trave.getIDList()
+        # for vehID in vehIDs:
+        #     lane = trave.getLaneID(vehID)
+        #     if lane in self.controlledLanes:
+        #         self.Tl[lane] += np.less_equal(trave.getSpeed(vehID), 2) * \
+        #             traci.simulation.getDeltaT()
+
+        if self.light_change + 500 < traci.simulation.getCurrentTime():
+            maxTl = np.amax(list(self.Tl.values()))
+            indexMaxTl = list(self.Tl.values()).index(maxTl)
+            tratl.setPhase(self.ID, indexMaxTl)
+            self.Tl[list(self.Tl.keys())[indexMaxTl]] = 0
+            self.light_change = traci.simulation.getCurrentTime()
 
     def updateAdviceSpeed(self):
         for laneID, lane in self.ICData.items():
             for vehNumber in range(len(lane)):
                 veh = lane[vehNumber]
                 distance = self.getDistance(laneID, veh["x"], veh["y"])
-                notifyDistance = self.getNotifydDistance(veh["id"], vehNumber)
+                notifyDistance = self.getNotifydDistance(veh["id"], vehNumber, lane)
                 speed, time = self.getAdviseSpeed(
                     veh["id"], distance, notifyDistance, laneID)
                 traci.vehicle.slowDown(veh["id"], speed, int(time))
@@ -86,6 +87,7 @@ class TrafficLight(TrafficTime):
             self.addToDataFrame(vehID, speed)
         return speed, accelTime
 
+
     @staticmethod
     def calcSpeed(s, t):
         return s / t
@@ -102,11 +104,15 @@ class TrafficLight(TrafficTime):
     #         laneIndex = self.controlledLanes.index(vehLane)
     #     if vehLane in self.controlledLanes:
 
-    def getNotifydDistance(self, vehID, vehNumber):
+    def getNotifydDistance(self, vehID, vehNumber, lane):
         speed = trave.getSpeed(vehID)
-        return (speed / self.comfortAcceleration * speed) + 13 + 10 * vehNumber
+        Totalvehlength = 0
+        for i in range(vehNumber):
+            Totalvehlength += trave.getLength(lane[i]["id"])
+        return (speed / self.comfortAcceleration * speed) + 13 + 3.5 * vehNumber + Totalvehlength
         """ +13 = minimal distance to ignore traffic lights
-        add vehicles in front * length"""
+            add vehicles in front * 3.5 (minimal to ignore
+            vehicles in front) + Totalvehlength"""
 
     def update(self):
         self.updateTime()
@@ -116,6 +122,7 @@ class TrafficLight(TrafficTime):
         self.updateVehicles()
         self.updateAdviceSpeed()
 
+
     def updateVehicles(self):
         '''Retreve and update the state of all vehicles in ICData'''
         self.removePastVehicles()
@@ -124,8 +131,8 @@ class TrafficLight(TrafficTime):
                 pos = trave.getPosition(vehicle["id"])
                 vehicle["x"] = pos[0]
                 vehicle["y"] = pos[1]
-                # col = np.random.rand(3) * 255
-                # trave.setColor(vehicle["id"], (col[0], col[1], col[2], 0))
+                col = np.random.rand(3) * 255
+                trave.setColor(vehicle["id"], (col[0], col[1], col[2], 0))
         self.addNewVehicles()
 
     def addNewVehicles(self):
