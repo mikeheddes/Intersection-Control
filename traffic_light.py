@@ -129,12 +129,12 @@ class TrafficLight(TrafficTime):
         self.addNewVehicles()
 
     def addNewVehicles(self):
-        DepartIDs = traci.simulation.getDepartedIDList()
-        for ID in DepartIDs:
+        for ID in trave.getIDList():
             LaneID = trave.getLaneID(ID)
-            if LaneID in self.controlledLanes:
+            if LaneID in self.controlledLanes and ID not in self.ICData[LaneID][:]["id"]:
                 pos = trave.getPosition(ID)
-                self.ICData[LaneID] += [{"id": ID, "x": pos[0], "y":pos[1]}]
+                self.ICData[LaneID].append(
+                    {"id": ID, "x": pos[0], "y": pos[1]})
 
     def removePastVehicles(self):
         '''Removes the first car if the laneID is not in controlledLanes
