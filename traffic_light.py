@@ -108,9 +108,10 @@ class TrafficLight(TrafficTime):
         Totalvehlength = 0
         for i in range(vehNumber):
             Totalvehlength += trave.getLength(lane[i]["id"])
-        return (speed / self.comfortAcceleration * speed) + 13 + 4.5 * vehNumber + Totalvehlength
+        return (speed / self.comfortAcceleration * speed) + 13 + 3.5 * vehNumber + Totalvehlength
         """ +13 = minimal distance to ignore traffic lights
-        add vehicles in front * length"""
+            add vehicles in front * 3.5 (minimal to ignore
+            vehicles in front) + Totalvehlength"""
 
     def update(self):
         self.updateTime()
@@ -182,4 +183,4 @@ class TrafficLight(TrafficTime):
         self.df.to_csv('data.csv')
 
     def makeItBeforeRed(self, timeTillRed, maxSpeed, distance, vehID):
-        return timeTillRed * maxSpeed > distance + trave.getLength(vehID)
+        return timeTillRed * maxSpeed > distance + trave.getLength(vehID
