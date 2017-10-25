@@ -13,8 +13,8 @@
     <node id="L" x="150.00" y="-450.00" type="dead_end" />
 
     <!-- intersections -->
-    <node id="D" x="-150.00" y="150.00" type="traffic_light" tl="2" />
-    <node id="E" x="150.00" y="150.00" type="traffic_light" tl="2" />
-    <node id="H" x="-150.00" y="-150.00" type="traffic_light" tl="2" />
-    <node id="I" x="150.00" y="-150.00" type="traffic_light" tl="2" />
+    <node id="D" x="-150.00" y="150.00" type="traffic_light" tl="D" />
+    <node id="E" x="150.00" y="150.00" type="traffic_light" tl="E" />
+    <node id="H" x="-150.00" y="-150.00" type="traffic_light" tl="H" />
+    <node id="I" x="150.00" y="-150.00" type="traffic_light" tl="I" />
 </nodes>
