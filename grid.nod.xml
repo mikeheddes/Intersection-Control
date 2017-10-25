@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nodes version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/nodes_file.xsd">
+    <location netOffset="0.00,0.00" convBoundary="-450.00,-450.00,450.00,450.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!" />
+
+    <!-- spawns and destinations -->
+    <node id="1" x="-150.00" y="450.00" type="dead_end" />
+    <node id="2" x="150.00" y="450.00" type="dead_end" />
+    <node id="3" x="-450.00" y="150.00" type="dead_end" />
+    <node id="4" x="450.00" y="150.00" type="dead_end" />
+    <node id="5" x="-450.00" y="-150.00" type="dead_end" />
+    <node id="6" x="450.00" y="-150.00" type="dead_end" />
+    <node id="7" x="-150.00" y="-450.00" type="dead_end" />
+    <node id="8" x="150.00" y="-450.00" type="dead_end" />
+
+    <!-- intersections -->
+    <node id="101" x="-150.00" y="150.00" type="traffic_light" tl="2" />
+    <node id="102" x="150.00" y="150.00" type="traffic_light" tl="2" />
+    <node id="103" x="-150.00" y="-150.00" type="traffic_light" tl="2" />
+    <node id="104" x="150.00" y="-150.00" type="traffic_light" tl="2" />
+</nodes>
