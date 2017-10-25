@@ -15,8 +15,8 @@ from traffic_time import *
 
 class TrafficLight(TrafficTime):
 
-    def __init__(self, collect_data):
-        self.ID = tratl.getIDList()[3]
+    def __init__(self, ID, collect_data=False):
+        self.ID = ID
         self.controlledLanes = tratl.getControlledLanes(self.ID)
         self.timeInPhase = 0
         self.comfortAcceleration = 4
@@ -124,8 +124,6 @@ class TrafficLight(TrafficTime):
                 pos = trave.getPosition(vehicle["id"])
                 vehicle["x"] = pos[0]
                 vehicle["y"] = pos[1]
-                col = np.random.rand(3) * 255
-                trave.setColor(vehicle["id"], (col[0], col[1], col[2], 0))
         self.addNewVehicles()
 
     def addNewVehicles(self):
@@ -176,7 +174,7 @@ class TrafficLight(TrafficTime):
 
     def exportDataFrame(self):
         self.df.index.name = 'index'
-        self.df.to_csv('data.csv')
+        self.df.to_csv('data_%s.csv' % (self.ID))
 
     def makeItBeforeRed(self, timeTillRed, maxSpeed, distance, vehID):
         return timeTillRed * maxSpeed > distance + trave.getLength(vehID)

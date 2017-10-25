@@ -2,6 +2,7 @@ import os
 import sys
 import traci
 import time
+import numpy as np
 import traffic_light
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -15,16 +16,24 @@ if len(sys.argv) > 1:
     else:
         raise Exception('Argument not available...')
 
-sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"] #sumo-gui for simulation
+sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"]  # sumo-gui for simulation
 traci.start(sumoCmd)
 step = 0
 steps = 2000
 
-
-tl = traffic_light.TrafficLight(collect_data)
+tlList = []
+tlAppend = tlList.append
+for tlID in traci.traffic_light.getIDList():
+    tlAppend(traffic_light.TrafficLight(tlID, collect_data=collect_data))
 while step < steps:
     traci.simulationStep()
-    tl.update()
+    for tl in tlList:
+        tl.update()
+    # Gives new vehicle a color
+    for newVeh in traci.simulation.getDepartedIDList():
+        col = np.random.rand(3) * 255
+        trave.setColor(vehicle["id"], (col[0], col[1], col[2], 0))
+
     step += 1
 
 if collect_data:
