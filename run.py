@@ -23,7 +23,7 @@ steps = 2000
 
 tlList = []
 tlAppend = tlList.append
-for tlID in traci.traffic_light.getIDList():
+for tlID in traci.trafficlights.getIDList():
     tlAppend(traffic_light.TrafficLight(tlID, collect_data=collect_data))
 while step < steps:
     traci.simulationStep()
@@ -32,7 +32,7 @@ while step < steps:
     # Gives new vehicle a color
     for newVeh in traci.simulation.getDepartedIDList():
         col = np.random.rand(3) * 255
-        trave.setColor(vehicle["id"], (col[0], col[1], col[2], 0))
+        traci.vehicle.setColor(newVeh, (col[0], col[1], col[2], 0))
 
     step += 1
 
