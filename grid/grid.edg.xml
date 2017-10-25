@@ -2,18 +2,18 @@
 <edges version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
 
     <!-- Vertical -->
-    <edge id="DA" from="1" to="101" priority="1" numLanes="2" speed="8.33" />
-    <edge id="BE" from="2" to="102" priority="1" numLanes="2" speed="8.33" />
-    <edge id="HD" from="101" to="103" priority="1" numLanes="2" speed="8.33" />
-    <edge id="EI" from="102" to="104" priority="1" numLanes="2" speed="8.33" />
-    <edge id="KH" from="103" to="7" priority="1" numLanes="2" speed="8.33" />
-    <edge id="IL" from="104" to="8" priority="1" numLanes="2" speed="8.33" />
+    <edge id="DA" from="D" to="A" priority="1" numLanes="2" speed="8.33" />
+    <edge id="BE" from="B" to="E" priority="1" numLanes="2" speed="8.33" />
+    <edge id="HD" from="H" to="D" priority="1" numLanes="2" speed="8.33" />
+    <edge id="EI" from="E" to="I" priority="1" numLanes="2" speed="8.33" />
+    <edge id="KH" from="K" to="H" priority="1" numLanes="2" speed="8.33" />
+    <edge id="IL" from="I" to="L" priority="1" numLanes="2" speed="8.33" />
 
     <!-- Horizontal -->
-    <edge id="CD" from="3" to="101" priority="1" numLanes="4" speed="8.33" />
-    <edge id="DE" from="101" to="102" priority="1" numLanes="4" speed="8.33" />
-    <edge id="EF" from="102" to="4" priority="1" numLanes="4" speed="8.33" />
-    <edge id="HG" from="5" to="103" priority="1" numLanes="3" speed="8.33" />
-    <edge id="IH" from="103" to="104" priority="1" numLanes="3" speed="8.33" />
-    <edge id="JI" from="104" to="6" priority="1" numLanes="3" speed="8.33" />
+    <edge id="CD" from="C" to="D" priority="1" numLanes="4" speed="8.33" />
+    <edge id="DE" from="D" to="E" priority="1" numLanes="4" speed="8.33" />
+    <edge id="EF" from="E" to="F" priority="1" numLanes="4" speed="8.33" />
+    <edge id="HG" from="H" to="G" priority="1" numLanes="3" speed="8.33" />
+    <edge id="IH" from="I" to="H" priority="1" numLanes="3" speed="8.33" />
+    <edge id="JI" from="J" to="I" priority="1" numLanes="3" speed="8.33" />
 </edges>
