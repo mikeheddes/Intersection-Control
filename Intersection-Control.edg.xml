@@ -9,4 +9,3 @@
     <edge id="D1" from="10" to="4" priority="1" numLanes="1" speed="8.33" />
     <edge id="D2" from="4" to="10" priority="1" numLanes="2" speed="8.33" />
 </edges>
-<!--  -->

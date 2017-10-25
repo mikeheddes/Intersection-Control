@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/connections_file.xsd">
+    <!-- from CD -->
+    <connection from="CD" to="DE" fromLane="0" toLane="0" />
+    <connection from="CD" to="DE" fromLane="1" toLane="1" />
+    <connection from="CD" to="DE" fromLane="2" toLane="2" />
+    <connection from="CD" to="DE" fromLane="3" toLane="3" />
+    <connection from="CD" to="DA" fromLane="2" toLane="0" />
+    <connection from="CD" to="DA" fromLane="3" toLane="1" />
+    <!-- from DE -->
+    <connection from="DE" to="EF" fromLane="0" toLane="0" />
+    <connection from="DE" to="EF" fromLane="1" toLane="1" />
+    <connection from="DE" to="EF" fromLane="2" toLane="2" />
+    <connection from="DE" to="EF" fromLane="3" toLane="3" />
+    <connection from="DE" to="EI" fromLane="0" toLane="0" />
+    <connection from="DE" to="EI" fromLane="1" toLane="1" />
+    <!-- from HD -->
+    <connection from="HD" to="DE" fromLane="0" toLane="0" />
+    <connection from="HD" to="DE" fromLane="1" toLane="1" />
+    <connection from="HD" to="DA" fromLane="0" toLane="0" />
+    <connection from="HD" to="DA" fromLane="1" toLane="1" />
+    <!-- from BE -->
+    <connection from="BE" to="EF" fromLane="0" toLane="2" />
+    <connection from="BE" to="EF" fromLane="1" toLane="3" />
+    <connection from="BE" to="EI" fromLane="0" toLane="0" />
+    <connection from="BE" to="EI" fromLane="1" toLane="1" />
+    <!-- from IH -->
+    <connection from="IH" to="HG" fromLane="0" toLane="0" />
+    <connection from="IH" to="HG" fromLane="1" toLane="1" />
+    <connection from="IH" to="HG" fromLane="2" toLane="2" />
+    <connection from="IH" to="HG" fromLane="3" toLane="3" />
+    <connection from="IH" to="HD" fromLane="0" toLane="0" />
+    <connection from="IH" to="HD" fromLane="0" toLane="1" />
+    <!-- from JI -->
+    <connection from="JI" to="IH" fromLane="0" toLane="0" />
+    <connection from="JI" to="IH" fromLane="1" toLane="1" />
+    <connection from="JI" to="IH" fromLane="2" toLane="2" />
+    <connection from="JI" to="IH" fromLane="3" toLane="3" />
+    <connection from="JI" to="IL" fromLane="2" toLane="0" />
+    <connection from="JI" to="IL" fromLane="3" toLane="1" />
+    <!-- from KH -->
+    <connection from="KH" to="HD" fromLane="0" toLane="0" />
+    <connection from="KH" to="HD" fromLane="1" toLane="1" />
+    <connection from="KH" to="HG" fromLane="0" toLane="2" />
+    <connection from="KH" to="HG" fromLane="1" toLane="3" />
+    <!-- from EI -->
+    <connection from="EI" to="IH" fromLane="0" toLane="0" />
+    <connection from="EI" to="IH" fromLane="1" toLane="1" />
+    <connection from="EI" to="IL" fromLane="0" toLane="0" />
+    <connection from="EI" to="IL" fromLane="1" toLane="1" />
+</connections>
