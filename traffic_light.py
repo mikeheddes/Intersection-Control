@@ -88,7 +88,7 @@ class TrafficLight(TrafficTime):
 
     @staticmethod
     def calcSpeed(s, t):
-        return s / t
+        return s / (t + 1e-5)
 
     @staticmethod
     def getDistance(laneID, x, y):
