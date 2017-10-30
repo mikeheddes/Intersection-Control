@@ -84,7 +84,7 @@ class TrafficLight(TrafficTime):
             (speed - trave.getSpeed(vehID)) / self.comfortAcceleration * 1000)
         if self.collect_data:
             self.addToDataFrame(vehID, speed)
-        return speed, accelTime
+        return speed, max(min(accelTime, 1e6), -1e6)
 
     @staticmethod
     def calcSpeed(s, t):
