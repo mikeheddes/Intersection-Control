@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 10/31/17 11:20:03 by SUMO netconvert Version 0.31.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="C:\Users\Niels\Documents\HvA\Jaar_3\HR\Sumo\Intersection-Control\Triangle\triangle.nod.xml"/>
+        <edge-files value="C:\Users\Niels\Documents\HvA\Jaar_3\HR\Sumo\Intersection-Control\Triangle\triangle.edg.xml"/>
+        <connection-files value="C:\Users\Niels\Documents\HvA\Jaar_3\HR\Sumo\Intersection-Control\Triangle\triangle.con.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\Niels\Documents\HvA\Jaar_3\HR\Sumo\Intersection-Control\Triangle\triangle.net.xml"/>
+    </output>
+
+    <processing>
+        <speed-in-kmh value="false"/>
+    </processing>
+
+    <report>
+        <xml-validation value="never"/>
+    </report>
+
+</configuration>
+-->
+
+<net version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="300.00,300.00" convBoundary="0.00,0.00,600.00,600.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id=":B_0" function="internal">
+        <lane id=":B_0_0" index="0" speed="8.33" length="7.82" shape="304.95,291.95 305.05,294.67 305.33,296.83 305.81,298.43 306.48,299.48"/>
+    </edge>
+    <edge id=":B_1" function="internal">
+        <lane id=":B_1_0" index="0" speed="8.33" length="10.39" shape="301.65,291.95 301.81,295.33 302.27,298.10 303.05,300.26 304.15,301.81"/>
+    </edge>
+    <edge id=":B_2" function="internal">
+        <lane id=":B_2_0" index="0" speed="8.33" length="9.32" shape="298.52,295.05 300.34,295.33 302.28,296.16 304.32,297.54 306.48,299.48"/>
+    </edge>
+    <edge id=":B_3" function="internal">
+        <lane id=":B_3_0" index="0" speed="8.33" length="6.74" shape="298.52,298.35 299.68,298.57 301.01,299.22 302.50,300.30 304.15,301.81"/>
+    </edge>
+
+    <edge id="AB" from="A" to="B" priority="1">
+        <lane id="AB_0" index="0" speed="8.33" length="298.52" shape="-0.00,295.05 298.52,295.05"/>
+        <lane id="AB_1" index="1" speed="8.33" length="298.52" shape="-0.00,298.35 298.52,298.35"/>
+    </edge>
+    <edge id="BD" from="B" to="D" priority="1">
+        <lane id="BD_0" index="0" speed="8.33" length="420.05" shape="306.48,299.48 603.50,596.50"/>
+        <lane id="BD_1" index="1" speed="8.33" length="420.05" shape="304.15,301.81 601.17,598.83"/>
+    </edge>
+    <edge id="CB" from="C" to="B" priority="1">
+        <lane id="CB_0" index="0" speed="8.33" length="291.95" shape="304.95,-0.00 304.95,291.95"/>
+        <lane id="CB_1" index="1" speed="8.33" length="291.95" shape="301.65,-0.00 301.65,291.95"/>
+    </edge>
+
+    <tlLogic id="B" type="static" programID="0" offset="0">
+        <phase duration="42" state="GGrr"/>
+        <phase duration="3" state="yyrr"/>
+        <phase duration="42" state="rrGG"/>
+        <phase duration="3" state="rryy"/>
+    </tlLogic>
+
+    <junction id="A" type="dead_end" x="0.00" y="300.00" incLanes="" intLanes="" shape="-0.00,299.95 -0.00,293.45"/>
+    <junction id="B" type="traffic_light" x="300.00" y="300.00" incLanes="CB_0 CB_1 AB_0 AB_1" intLanes=":B_0_0 :B_1_0 :B_2_0 :B_3_0" shape="303.01,302.94 307.61,298.35 306.55,291.95 300.05,291.95 298.52,293.45 298.52,299.95">
+        <request index="0" response="0000" foes="1100" cont="0"/>
+        <request index="1" response="0000" foes="1100" cont="0"/>
+        <request index="2" response="0011" foes="0011" cont="0"/>
+        <request index="3" response="0011" foes="0011" cont="0"/>
+    </junction>
+    <junction id="C" type="dead_end" x="300.00" y="0.00" incLanes="" intLanes="" shape="300.05,-0.00 306.55,-0.00"/>
+    <junction id="D" type="dead_end" x="600.00" y="600.00" incLanes="BD_0 BD_1" intLanes="" shape="604.63,595.37 600.04,599.96"/>
+
+    <connection from="AB" to="BD" fromLane="0" toLane="0" via=":B_2_0" tl="B" linkIndex="2" dir="l" state="o"/>
+    <connection from="AB" to="BD" fromLane="1" toLane="1" via=":B_3_0" tl="B" linkIndex="3" dir="l" state="o"/>
+    <connection from="CB" to="BD" fromLane="0" toLane="0" via=":B_0_0" tl="B" linkIndex="0" dir="r" state="o"/>
+    <connection from="CB" to="BD" fromLane="1" toLane="1" via=":B_1_0" tl="B" linkIndex="1" dir="r" state="o"/>
+
+    <connection from=":B_0" to="BD" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":B_1" to="BD" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":B_2" to="BD" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":B_3" to="BD" fromLane="0" toLane="1" dir="s" state="M"/>
+
+</net>

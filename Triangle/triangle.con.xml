@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connections version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/connections_file.xsd">
+    <!-- from AB -->
+    <connection from="AB" to="BD" fromLane="0" toLane="0" />
+    <connection from="AB" to="BD" fromLane="1" toLane="1" />
+
+    <!-- from CB -->
+    <connection from="CB" to="BD" fromLane="0" toLane="0" />
+    <connection from="CB" to="BD" fromLane="1" toLane="1" />
+
+</connections>

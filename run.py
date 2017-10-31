@@ -32,11 +32,7 @@ while step < steps:
     # Gives new vehicle a color
     for newVeh in traci.simulation.getDepartedIDList():
         col = np.random.rand(3) * 255
-<<<<<<< HEAD
-        traci.vehicle.setColor(vehicle["id"], (col[0], col[1], col[2], 0))
-=======
         traci.vehicle.setColor(newVeh, (col[0], col[1], col[2], 0))
->>>>>>> 35052a61a130fdae46d2db495bd3853c26f6ba2a
 
     step += 1
 
