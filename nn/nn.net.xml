@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on Tue Oct 31 12:29:42 2017 by SUMO netconvert Version 0.30.0
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+        <node-files value="nn.nod.xml"/>
+        <edge-files value="nn.edg.xml"/>
+        <connection-files value="nn.con.xml"/>
+    </input>
+
+    <output>
+        <output-file value="nn.net.xml"/>
+    </output>
+
+    <processing>
+        <speed-in-kmh value="false"/>
+    </processing>
+
+    <report>
+        <xml-validation value="never"/>
+    </report>
+
+</configuration>
+-->
+
+<net version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="300.00,300.00" convBoundary="0.00,0.00,600.00,600.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id=":B_0" function="internal">
+        <lane id=":B_0_0" index="0" speed="8.33" length="5.93" shape="301.65,295.25 301.75,297.12 302.03,298.68 302.51,299.92 303.18,300.85"/>
+    </edge>
+    <edge id=":B_1" function="internal">
+        <lane id=":B_1_0" index="0" speed="8.33" length="5.41" shape="298.52,298.35 299.62,298.51 300.77,298.97 301.95,299.75 303.18,300.85"/>
+    </edge>
+
+    <edge id="AB" from="A" to="B" priority="1">
+        <lane id="AB_0" index="0" speed="8.33" length="298.52" shape="0.00,298.35 298.52,298.35"/>
+    </edge>
+    <edge id="BD" from="B" to="D" priority="1">
+        <lane id="BD_0" index="0" speed="8.33" length="421.42" shape="303.18,300.85 601.17,598.83"/>
+    </edge>
+    <edge id="CB" from="C" to="B" priority="1">
+        <lane id="CB_0" index="0" speed="8.33" length="295.25" shape="301.65,0.00 301.65,295.25"/>
+    </edge>
+
+    <tlLogic id="B" type="static" programID="0" offset="0">
+        <phase duration="43" state="Gr"/>
+        <phase duration="2" state="yr"/>
+        <phase duration="43" state="rG"/>
+        <phase duration="2" state="ry"/>
+    </tlLogic>
+
+    <junction id="A" type="dead_end" x="0.00" y="300.00" incLanes="" intLanes="" shape="0.00,299.95 0.00,296.75"/>
+    <junction id="B" type="traffic_light" x="300.00" y="300.00" incLanes="CB_0 AB_0" intLanes=":B_0_0 :B_1_0" shape="302.05,301.98 304.31,299.71 303.25,295.25 300.05,295.25 298.52,296.75 298.52,299.95">
+        <request index="0" response="00" foes="10" cont="0"/>
+        <request index="1" response="01" foes="01" cont="0"/>
+    </junction>
+    <junction id="C" type="dead_end" x="300.00" y="0.00" incLanes="" intLanes="" shape="300.05,0.00 303.25,0.00"/>
+    <junction id="D" type="dead_end" x="600.00" y="600.00" incLanes="BD_0" intLanes="" shape="602.30,597.70 600.04,599.96"/>
+
+    <connection from="AB" to="BD" fromLane="0" toLane="0" via=":B_1_0" tl="B" linkIndex="1" dir="l" state="o"/>
+    <connection from="CB" to="BD" fromLane="0" toLane="0" via=":B_0_0" tl="B" linkIndex="0" dir="r" state="o"/>
+
+    <connection from=":B_0" to="BD" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":B_1" to="BD" fromLane="0" toLane="0" dir="s" state="M"/>
+
+</net>

@@ -3,13 +3,13 @@
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-    <node-files value="triangle.nod.xml" />
-    <edge-files value="triangle.edg.xml" />
-    <connection-files value="triangle.con.xml" />
+    <node-files value="nn.nod.xml" />
+    <edge-files value="nn.edg.xml" />
+    <connection-files value="nn.con.xml" />
     </input>
 
     <output>
-        <output-file value="triangle.net.xml"/>
+        <output-file value="nn.net.xml"/>
     </output>
 
     <processing>
