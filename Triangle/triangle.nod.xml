@@ -2,9 +2,12 @@
 <nodes version="0.27" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/nodes_file.xsd">
     <location netOffset="0.00,0.00" convBoundary="-300.00,-300.00,300.00,300.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!" />
 
-    <node id="1" x="-300.00" y="0.00" type="dead_end" />
-    <node id="2" x="300.00" y="0.00" type="dead_end" />
-    <node id="3" x="0.00" y="300.00" type="dead_end" />
-    <node id="4" x="0.00" y="-300.00" type="dead_end" />
-    <node id="10" x="0.00" y="0.00" type="traffic_light" tl="2" />
+    <!-- spawns and destinations -->
+    <node id="A" x="-300.00" y="0.00" type="dead_end" />
+    <node id="C" x="0.00" y="-300.00" type="dead_end" />
+    <node id="D" x="300.00" y="300.00" type="dead_end" />
+
+    <!-- intersection -->
+    <node id="B" x="0.00" y="0.00" type="traffic_light" tl="B" />
+
 </nodes>

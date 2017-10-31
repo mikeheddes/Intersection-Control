@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <input>
+    <node-files value="triangle.nod.xml" />
+    <edge-files value="triangle.edg.xml" />
+    <connection-files value="triangle.con.xml" />
+    </input>
+
+    <output>
+        <output-file value="triangle.net.xml"/>
+    </output>
+
+    <processing>
+        <speed-in-kmh value="false" />
+    </processing>
+
+    <report>
+        <xml-validation value="never" />
+    </report>
+
+</configuration>
