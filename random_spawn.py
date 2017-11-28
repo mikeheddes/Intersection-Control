@@ -11,9 +11,9 @@ endingEdges = []
 departPos = 'base'
 flow_id = 'flow_'
 flow_type = 'CAR'
-spawn_prob = 0.05
+spawn_prob = 0.015
 xml_routes_string = '<?xml version="1.0" encoding="UTF-8"?>\n<routes>\n</routes>'
-FILENAME = 'triangle/triangle'
+FILENAME = 'Intersection-Control'
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 FOLDER = os.path.basename(DIR)

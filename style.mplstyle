@@ -8,7 +8,7 @@
 # axes.labelcolor: .15
 # axes.labelsize: 11
 # axes.linewidth: 0
-axes.color_cycle: 007AFF, 4CD964, FF2D55, FFCC00, 5856d6
+axes.prop_cycle: cycler('color', ['007AFF', '4CD964', 'FF2D55', 'FF9500', '5856d6'])
 # axes.titlesize: 12
 
 # figure.facecolor: white

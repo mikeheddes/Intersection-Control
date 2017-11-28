@@ -15,13 +15,13 @@ from traffic_time import *
 
 class TrafficLight(TrafficTime):
 
-    def __init__(self, ID, collect_data=False):
+    def __init__(self, ID, collect_data=False, training=False):
         self.ID = ID
+        self.training = training
         self.controlledLanes = tratl.getControlledLanes(self.ID)
         self.timeInPhase = 0
         self.comfortAcceleration = 4
         self.df = pd.DataFrame()
-        self.prScore = pd.DataFrame()
         self.vehicleCount = 0
         self.collect_data = collect_data
         self.phases = tratl.getCompleteRedYellowGreenDefinition(self.ID)[
@@ -33,53 +33,38 @@ class TrafficLight(TrafficTime):
         self.timeTillGreen = {lane: None for lane in self.controlledLanes}
         self.timeTillNextGreen = {lane: None for lane in self.controlledLanes}
         self.timeTillRed = {lane: None for lane in self.controlledLanes}
-        self.Tl = np.zeros(len(self.ICData))
+        self.Tl = {l: 0 for l in self.controlledLanes}
         self.light_change = traci.simulation.getCurrentTime()
+        lanes_number = len(LANES)
+        input_vehicle_size = 2 + lanes_number * 2
+        hidden_encoder_size = 20
+        hidden_vehicle_size = 4
+        stdv = .1
 
-    def light_switch(self):
-        for laneID, lane in self.ICData.items():
-            if(len(lane) > 0):
-                self.Tl[list(self.ICData.keys()).index(laneID)] = self.calcDistW(lane, laneID) + self.calcStopW(lane)
-                # print(self.calcDistW(lane, laneID), self.calcStopW(lane))
-            else:
-                self.Tl[list(self.ICData.keys()).index(laneID)] = 0
-        self.Tl = self.softmax(self.Tl)
-        # print(self.Tl)
-        # print(self.ICData)
-        if self.light_change + 10000 < traci.simulation.getCurrentTime():
-            maxTl = np.argmax(self.Tl)
-            # Change phase duration instead of the phase itself
-            tratl.setPhase(self.ID, maxTl)
-            # self.Tl[maxTl] = 0
-            self.light_change = traci.simulation.getCurrentTime()
-        # self.addScoreToFrame()
+        H_1 = np.zeros(hidden_encoder_size)
+        W1_hh = np.random.randn(hidden_encoder_size, hidden_encoder_size) * stdv
+        W1_vh = np.random.randn(input_vehicle_size, hidden_encoder_size) * stdv
+        W1_vv = np.random.randn(input_vehicle_size, hidden_vehicle_size) * stdv
+        b1_h = np.zeros(hidden_encoder_size)
+        b1_v = np.zeros(hidden_vehicle_size)
+        W2_h = np.random.randn(hidden_encoder_size, 1) * stdv
+        W2_v = np.random.randn(hidden_vehicle_size, 1) * stdv
+        b2 = np.zeros(1)
 
-    def addScoreToFrame(self):
-        self.prScore = self.prScore.append({"1": self.Tl[0],
-                                  "2": self.Tl[1],
-                                  "3": self.Tl[2],
-                                  "4": self.Tl[3]}, ignore_index=True)
-
-    def exportScoreFrame(self):
-        self.prScore.index.name = 'index'
-        self.prScore.to_csv('score.csv')
-
-    @staticmethod
-    def calcStopW(lane):
-        stopW = 0.01
-        return np.sum(list(map(lambda x: x["<<"], lane))) * stopW
-
-    def calcDistW(self, lane, laneID):
-        distW = 0.5
-        imgDist = 300
-        imgDistW = 0
-        return np.sum(list(map(lambda x: -np.power(1 / imgDist, 3) * np.power(self.getDistance(laneID, x["x"], x["y"]) - imgDist, 3), lane))) * distW
-        #np.sum(list(map(lambda x: ((imgDistW - 1) / imgDist * self.getDistance(laneID, x["x"], x["y"]) + 1), lane))) * distW
-
-    @staticmethod
-    def softmax(z):
-        z -= np.amax(z, keepdims=True)
-        return np.exp(z) / np.sum(np.exp(z), keepdims=True)
+    # def light_switch(self):
+    #     vehIDs = trave.getIDList()
+    #     for vehID in vehIDs:
+    #         lane = trave.getLaneID(vehID)
+    #         if lane in self.controlledLanes:
+    #             self.Tl[lane] += np.less_equal(trave.getSpeed(vehID), 2) * \
+    #                 traci.simulation.getDeltaT()
+    #
+    #     if self.light_change + 10000 < traci.simulation.getCurrentTime():
+    #         maxTl = np.amax(list(self.Tl.values()))
+    #         indexMaxTl = list(self.Tl.values()).index(maxTl)
+    #         tratl.setPhase(self.ID, indexMaxTl)
+    #         self.Tl[list(self.Tl.keys())[indexMaxTl]] = 0
+    #         self.light_change = traci.simulation.getCurrentTime()
 
     def updateAdviceSpeed(self):
         for laneID, lane in self.ICData.items():
@@ -140,12 +125,13 @@ class TrafficLight(TrafficTime):
         add vehicles in front * length"""
 
     def update(self):
-        self.updateTime()
-        self.setTimeTillGreen()
-        self.setTimeTillRed()
-        self.setTimeTillNextGreen()
         self.updateVehicles()
-        self.updateAdviceSpeed()
+        if self.training:
+            self.updateTime()
+            self.setTimeTillGreen()
+            self.setTimeTillRed()
+            self.setTimeTillNextGreen()
+            self.updateAdviceSpeed()
 
     def updateVehicles(self):
         '''Retreve and update the state of all vehicles in ICData'''
@@ -155,7 +141,6 @@ class TrafficLight(TrafficTime):
                 pos = trave.getPosition(vehicle["id"])
                 vehicle["x"] = pos[0]
                 vehicle["y"] = pos[1]
-                vehicle["<<"] += np.less_equal(trave.getSpeed(vehicle["id"]), .5)
         self.addNewVehicles()
 
     def addNewVehicles(self):
@@ -165,7 +150,7 @@ class TrafficLight(TrafficTime):
                 if ID not in [d['id'] for d in self.ICData[LaneID] if 'id' in d]:
                     pos = trave.getPosition(ID)
                     self.ICData[LaneID] += [{"id": ID,
-                                             "x": pos[0], "y":pos[1], "<<": 0}]
+                                             "x": pos[0], "y":pos[1]}]
 
     def removePastVehicles(self):
         '''Removes the first car if the laneID is not in controlledLanes

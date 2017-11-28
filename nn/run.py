@@ -10,11 +10,15 @@ FOLDER = os.path.basename(DIR)
 FILE = os.path.splitext(sys.argv[0])[0]
 
 collect_data = False
+training = False
 if len(sys.argv) > 1:
-    if sys.argv[1] == '--data' or sys.argv[1] == '-d':
-        collect_data = True
-    else:
-        raise Exception('Argument not available...')
+    for cmd in sys.argv[1:]:
+        if cmd == '--data' or cmd == '-D':
+            collect_data = True
+        elif cmd == '--train' or cmd == '-T':
+            training = True
+        else:
+            raise Exception('Argument not available...')
 
 sumoCmd = ["sumo-gui", "-c", FOLDER + ".sumocfg"]  # sumo-gui for simulation
 traci.start(sumoCmd)
@@ -24,20 +28,17 @@ steps = 2000
 tlList = []
 tlAppend = tlList.append
 for tlID in traci.trafficlights.getIDList():
-    tlAppend(traffic_light.TrafficLight(tlID, collect_data=collect_data))
+    tlAppend(traffic_light.TrafficLight(tlID, collect_data=collect_data, training=training))
 while step < steps:
     traci.simulationStep()
+    # Gives new vehicle a color
+    for newVeh in traci.simulation.getDepartedIDList():
+        col = np.random.rand(3) * 255
+        traci.vehicle.setColor(newVeh, (col[0], col[1], col[2], 0))
     for tl in tlList:
         tl.update()
-    # Gives new vehicle a color
-    # for newVeh in traci.simulation.getDepartedIDList():
-    #     col = np.random.rand(3) * 255
-    #     traci.vehicle.setColor(newVeh, (col[0], col[1], col[2], 0))
-    # tl.light_switch()
 
     step += 1
-
-# tl.exportScoreFrame()
 
 if collect_data:
     tl.exportDataFrame()

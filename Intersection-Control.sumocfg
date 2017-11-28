@@ -3,10 +3,12 @@
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
     <input>
-      <net-file value="triangle/triangle.net.xml" />
-      <route-files value="triangle/triangle.rou.xml" />
+    <!-- <net-file value="triangle/triangle.net.xml" />
+      <route-files value="triangle/triangle.rou.xml" /> -->
     <!-- <net-file value="grid/grid.net.xml" />
     <route-files value="grid/grid.rou.xml grid/random_spawn.rou.xml" /> -->
+    <net-file value="Intersection-Control.net.xml" />
+    <route-files value="Intersection-Control.rou.xml random_spawn.rou.xml" />
     </input>
 
     <time>
